@@ -1,0 +1,7 @@
+def solution(numbers):
+    numbers1 = list(map(str, numbers))
+    # 1000 이하인 numbers의 원소들을 3자리 수로 맞춘 후 정렬
+    numbers2 = sorted(numbers1, reverse=True, key=lambda x: x * 3)
+    
+    if numbers.count(0) == len(numbers): return str(0)
+    else: return ''.join(numbers2)

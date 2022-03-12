@@ -1,0 +1,31 @@
+from collections import deque
+
+def bfs(node, visited, queue, graph):
+    visited[node] = 1
+    
+    queue.append(node)
+    
+    while queue:
+        target = queue.popleft();
+        
+        for i in graph[target]:
+            if visited[i] == 0:
+                visited[i] = visited[target] + 1
+                queue.append(i)
+
+
+def solution(n, edge):
+    graph = dict()
+    visited = [0 for _ in range(n + 1)]
+    queue = deque()
+    
+    for i in range(n):
+        graph[i + 1] = list()
+    
+    for j in range(len(edge)):
+        graph[edge[j][0]].append(edge[j][1])
+        graph[edge[j][1]].append(edge[j][0])
+        
+    bfs(1, visited, queue, graph)
+    
+    return visited.count(max(visited))

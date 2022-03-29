@@ -1,0 +1,18 @@
+def solution(number, k):
+    stack = []
+    i = 0
+
+    while i < len(number) and k > 0:
+        if len(stack) != 0 and int(stack[-1]) < int(number[i]):
+            stack.pop()
+            k -= 1
+        else:
+            stack.append(number[i])
+            i += 1
+
+    answer = "".join(stack) + number[i:]
+
+    if k > 0:  # k개를 다 소모하지 못했을 때
+        answer = answer[:-k]
+
+    return answer

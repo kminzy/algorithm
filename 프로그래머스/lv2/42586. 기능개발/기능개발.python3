@@ -1,0 +1,28 @@
+from collections import deque
+
+
+def solution(progresses, speeds):
+    answer = []
+    result = [[0, 0]]  # [배포 일수, 배포된 프로젝트 수]
+    complete = []
+    progresses = deque(progresses)
+    speeds = deque(speeds)
+
+    for i in range(len(progresses)):
+        target_p = progresses.popleft()
+        target_s = speeds.popleft()
+        if (100 - target_p) % target_s != 0:  # 작업이 나누어 떨어지지 않는 경우
+            answer.append(((100 - target_p) // target_s) + 1)
+        else:
+            answer.append((100 - target_p) // target_s)
+
+    for day in answer:
+        if day > result[-1][0]:
+            result.append([day, 1])
+        elif day <= result[-1][0]:
+            result[-1][1] += 1
+
+    for r in result[1:]:
+        complete.append(r[1])
+
+    return complete

@@ -1,0 +1,24 @@
+def solution(genres, plays):
+    answer = []
+
+    d = dict()  # { 장르: [총 재생 횟수, [고유번호, 재생횟수]] }
+
+    for i in range(len(genres)):
+        if genres[i] not in d:
+            d[genres[i]] = [0, []]
+        d[genres[i]][0] += plays[i]
+        d[genres[i]][1].append([i, plays[i]])
+
+    for value in d.values():  # 장르 내에서 많이 재생된 순서대로 노래 배열
+        # 재생 횟수가 같은 노래 중에서는 고유 번호가 낮은 노래 먼저 수록
+        value[1] = sorted(value[1], key=lambda x: (x[1], -x[0]), reverse=True)
+        if len(value[1]) > 2:  # 2개 이상일 때에는 2개만 남기고 제거
+            value[1] = value[1][:2]
+
+    sort_g = sorted(d.items(), key=lambda x: (x[1][0]), reverse=True)  # 많이 재생된 순서대로 장르 배열
+
+    for value in sort_g:
+        for v in value[1][1]:
+            answer.append(v[0])
+
+    return answer
